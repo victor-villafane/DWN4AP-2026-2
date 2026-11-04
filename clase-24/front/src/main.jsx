@@ -20,6 +20,7 @@ const EditarJuego = lazy(() => import('./pages/crud/EditarJuego.jsx'))
 const BorrarJuego = lazy(() => import('./pages/crud/BorrarJuego.jsx'))
 const Register = lazy(() => import('./pages/auth/Register.jsx'))
 const Usuarios = lazy(() => import('./pages/Usuarios.jsx'))
+const Auth = lazy(() => import('./pages/auth/Auth.jsx'))
 
 const router = createBrowserRouter( //createMemoryRouter(
   [
@@ -77,6 +78,10 @@ const router = createBrowserRouter( //createMemoryRouter(
         {
           path: "/salir",
           element: <Logout />
+        },
+        {
+          path: "/auth/callback",
+          element: <Auth />
         }
       ]
     }

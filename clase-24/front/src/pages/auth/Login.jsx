@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router'
 import { call } from '../../services/api.service'
 import { useApiUsuarios } from '../../services/usuarios.service'
 import {  useLogin } from '../../context/session.context'
+import GoogleAuth from '../../components/GoogleAuth'
 
 export default function Login() {
 
@@ -48,6 +49,7 @@ export default function Login() {
                 <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-md transition-colors">
                     Ingresar
                 </button>
+                <GoogleAuth />
             </form>
         </div>
     )

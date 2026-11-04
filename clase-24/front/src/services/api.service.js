@@ -1,5 +1,6 @@
 export function call(uri, method = "GET", body = undefined) {
-    return fetch("http://localhost:2026/api" + uri, {
+    const url = import.meta.env.VITE_API_URL ?? "http://localhost:2026"
+    return fetch( url + uri, {
         headers: {
             "Content-Type": "application/json",
             "authorization": "Bearer " + JSON.parse(localStorage.getItem("usuario"))?.token
