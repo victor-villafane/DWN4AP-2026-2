@@ -6,6 +6,7 @@ import cors from "cors"
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js"
 import { getGames } from "./services/games.services.js"
+import { z } from "zod"
 const app = express()
 
 app.use(cors())
@@ -28,11 +29,19 @@ app.post("/mcp", async (req, res) => {    // Este endpoint es para que el modelo
     // Aquí se registran las herramientas que queremos exponer al modelo
     server.registerTool(
         "obtener_juegos", {
-        description: "Obtiene la lista de juegos"
+        description: "Obtiene la lista de juegos, con filtros opcionales y paginación",
+        inputSchema: {
+            page: z.number().int().min(1).optional().describe("Número de página (por defecto 1)"),
+            limit: z.number().int().min(1).optional().describe("Juegos por página (por defecto 10)"),
+            name: z.string().optional().describe("Busca juegos por nombre"),
+            developer: z.string().optional().describe("Filtra por desarrollador exacto"),
+            price_min: z.number().min(0).optional().describe("Precio mínimo (mayor que)"),
+            price_max: z.number().min(0).optional().describe("Precio máximo (menor que)")
+        }
     },
         async (filtros) => {
             try {
-                const juegos = await getGames()
+                const juegos = await getGames(filtros)
                 return {
                     content: [{
                         type: "text",
