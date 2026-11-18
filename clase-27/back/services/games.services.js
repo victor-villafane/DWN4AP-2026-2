@@ -73,7 +73,7 @@ export async function deleteGameFisico(id) {
 }
 
 export async function deleteGameLogico(id) {
-    const juego = getGameById(id)
+    const juego = await getGameById(id)
     await db.collection("juegos").updateOne(
         { _id: new ObjectId(id) }, { $set: { eliminado: true } }//https://www.mongodb.com/es/docs/manual/reference/operator/update/set/
     )
@@ -88,7 +88,7 @@ export async function saveGameReview(idJuego, usuario) {
     // }
     const juego = await getGameById(idJuego)
     juego.comentario = usuario.comentario
-    Promise.all([
+    await Promise.all([
         db.collection("juegos").updateOne(
             { _id: new ObjectId(idJuego) },
             { $addToSet: { reviews: { ...usuario } } } //Si el valor ya estaba no lo agrega
@@ -98,7 +98,6 @@ export async function saveGameReview(idJuego, usuario) {
             { $addToSet: { reviews: { ...juego } } } //Si el valor ya estaba no lo agrega
             //https://www.mongodb.com/es/docs/manual/reference/operator/update/addToSet/
         )])
-        .then(() => console.log("ok"))
-        .catch(() => console.log("fail"))
+    console.log("ok")
     return juego
 }
